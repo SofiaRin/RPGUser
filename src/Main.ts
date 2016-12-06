@@ -26,6 +26,16 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+/*
+var Cache: MethodDecorator = (target: any, propertyName, desc: PropertyDescriptor) => {
+    const getter = desc.value;
+    desc.value = function () {
+        console.log(111);
+        return getter.apply(this);
+    }
+    return desc;
+}
+*/
 
 class Main extends egret.DisplayObjectContainer {
 
@@ -119,17 +129,18 @@ class Main extends egret.DisplayObjectContainer {
     private createGameScene(): void {
      
         var user = new User();
+
+        var skilledTechnician = new Technician(TechnicianQuality.SKILLED,'Skilled - FireCtrl');
         
-
-
         var SKC34 = new Equipment(EquipmentType.CANNON,'SKC34');
 
         var PrinzEugen = new Ship(ShipType.CA,'PrinzEugen');
 
-        var skilledTechnician = new Technician(TechnicianQuality.SKILLED,'Skilled - FireCtrl');
+        
 
         user.ships.push(PrinzEugen);
         PrinzEugen.setInTeam(true);
+        user.checkInTeam();
 
         PrinzEugen.equipments.push(SKC34);
 

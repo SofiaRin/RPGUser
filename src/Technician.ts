@@ -8,24 +8,34 @@ enum TechnicianQuality {
 
 class Technician {
 
-    name:string;
+    name: string;
 
-    status = 100;
+    level = 1; //人员等级
 
-    technicianQuality: TechnicianQuality;
+    exp = 0;//人员经验
 
+    totalExp = 0;//人员经验上限
 
-    constructor(_technicianQuality: TechnicianQuality,_name:string) {
+    status = 25;//人员疲劳值上限
+
+    technicianQuality: TechnicianQuality;//人员水准
+
+    
+
+    constructor(_technicianQuality: TechnicianQuality, _name: string) {
         this.name = _name;
         this.technicianQuality = _technicianQuality;
+       // this.attack = this.getAttack();
+    }
+    
+    @Cache
+    getAttack() {
+        return this.status * this.technicianQuality;
     }
 
-    get attack() {
-        return this.status/2 * this.technicianQuality;
-    }
-
+    //@Cache
     calFightPower() {
-        return this.attack * 1.2 + this.status * 1.7;
+        return this.getAttack() * 1.4 + this.level * 2;
     }
 
 }

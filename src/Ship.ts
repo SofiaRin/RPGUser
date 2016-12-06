@@ -4,11 +4,13 @@ enum ShipType {
 
 class Ship {
 
-    name:string;
+    name: string;
 
-    level = 1;
+    level = 1;//船只等级不会变化，各船只等级不同。
 
     hp = 50;
+
+    speed = 10;
 
     type: ShipType;
 
@@ -16,43 +18,44 @@ class Ship {
 
     equipments: Equipment[] = [];
 
-    private __cacheMaxHp;////flag !
+    //private __cachemaxHp;////flag !
 
-    constructor(_type: ShipType,_name:string) {
-    this.name = _name;
-    this.type = _type;
+    constructor(_type: ShipType, _name: string) {
+        this.name = _name;
+        this.type = _type;
+        /*
+        this.maxHP = this.getmaxHP();
+        this.attack = this.getAttack();
+        this.fightPower = this.getfightPower();
+        */
     }
 
-    public setInTeam(_isinTeam:boolean){
+    public setInTeam(_isinTeam: boolean) {
 
         this.isInTeam = _isinTeam;
     }
 
-
-    get maxHP() {
-
-        if (!this.__cacheMaxHp) {
-            var result = 0;
-            result += this.level * 100 * this.type;
-            this.__cacheMaxHp = result;
-        }
-        return this.__cacheMaxHp;
+    //@Cache
+    getmaxHP() {
+        var result = 0;
+        result += this.level * 10 * this.type;
+        return result;
     }
-
-    get attack() {
+    @Cache
+    getAttack() {
         var result = 0;
         this.equipments.forEach(e => result += e.calFightPower());
         return result;
     }
 
-    get fightPower() {
+    getfightPower() {
 
         return this.calFightPower();
     }
 
-
+    
     calFightPower() {
-        return this.maxHP * 1.5 + this.attack * 1.8;
+        return this.getmaxHP() * 1.5 + this.getAttack() * 1.8 + this.speed*1.2;
     }
 }
 

@@ -1,18 +1,3 @@
-var Cache = function (target, propertyKey, descriptor) {
-    var method = descriptor.value;
-    descriptor.value = function () {
-        var arg = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            arg[_i - 0] = arguments[_i];
-        }
-        console.log(target, propertyKey);
-        var cacheKey = "__cache" + propertyKey;
-        if (!target[cacheKey]) {
-            target[cacheKey] = method.apply(this, arg);
-        }
-        return target[cacheKey];
-    };
-};
 var User = (function () {
     function User() {
         this.level = 0;
@@ -20,14 +5,21 @@ var User = (function () {
         this.totalExp = 0;
         this.cash = 0;
         this.gold = 0;
+        this.fightPower = 0;
         this.ships = [];
+        this.shipsInTeam = [];
+        this.checkInTeam();
     }
     var d = __define,c=User,p=c.prototype;
-    d(p, "shipsInTeam"
-        ,function () {
-            return this.ships.filter(function (ship) { return ship.isInTeam; });
+    p.checkInTeam = function () {
+        this.shipsInTeam = this.ships.filter(function (ship) { return ship.isInTeam; });
+    };
+    /*
+        get shipsInTeam() {
+    
+            return this.ships.filter(ship => ship.isInTeam);
         }
-    );
+    */
     p.calFightPower = function () {
         var result = 0;
         this.shipsInTeam.map(function (ship) { return result += ship.calFightPower(); });
